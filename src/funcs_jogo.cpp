@@ -121,17 +121,7 @@ void exibir_time_pc(GameData &game, sf::RenderWindow &window){
         auto sz = imagem_poke.getSize();
         sprite_pokemon.setScale({static_cast<float>(200) / sz.x, static_cast<float>(200) / sz.y});
         
-        if(aux.get_tipo() == TipoPokemon::FOGO){
-            nome_pokemon.setFillColor(sf::Color(255,0,0));
-        }
-
-        else if(aux.get_tipo() == TipoPokemon::AGUA){
-            nome_pokemon.setFillColor(sf::Color(0,0,255));
-        }
-
-        else if(aux.get_tipo() == TipoPokemon::PLANTA){
-            nome_pokemon.setFillColor(sf::Color(0,255,0));
-        }
+        adicionar_tipo(aux, nome_pokemon);
         // Centraliza o texto no botão
         nome_pokemon.setPosition({posicaoX, posicaoY + 200.f});
         
@@ -183,56 +173,46 @@ void exibir_time_jogador(GameData &game, sf::RenderWindow &window){
         auto sz = imagem_poke.getSize();
         sprite_pokemon.setScale({static_cast<float>(200) / sz.x, static_cast<float>(200) / sz.y});
         
-        if(aux.get_tipo() == TipoPokemon::FOGO){
-            nome_pokemon.setFillColor(sf::Color(255,0,0));
-        }
-
-        else if(aux.get_tipo() == TipoPokemon::AGUA){
-            nome_pokemon.setFillColor(sf::Color(0,0,255));
-        }
-
-        else if(aux.get_tipo() == TipoPokemon::PLANTA){
-            nome_pokemon.setFillColor(sf::Color(0,255,0));
-        }
+        adicionar_tipo(aux, nome_pokemon);
         // Centraliza o texto no botão
         nome_pokemon.setPosition({posicaoX, posicaoY + 200.f});
         
         posicaoX+=215.f;
-    
+        
         window.draw(sprite_pokemon);
         window.draw(nome_pokemon);
     }
-
+    
     while(!temp.vazia()){
         PokemonEntity aux;
         bool baux;
-
+        
         temp.desenfileira(&aux, &baux);
         game.fila_jogador.enfileira(aux, &baux);
     }
     sf::Text texto_primeiro(game.fonte, "Primeiro");
     sf::Text texto_ultimo(game.fonte, "Ultimo");
-
+    
     texto_primeiro.setPosition({120.f, 210.f});
     texto_ultimo.setPosition({980.f, 210.f});
-
+    
     window.draw(texto_primeiro);
     window.draw(texto_ultimo);
 }
 
 // Randomizando a fila das escolhas possíveis do jogador no estado de CAPTURA
 void randomiza_fila_escolha(GameData &game, Fila &f){
-
+    
     PokemonEntity copia[QTD_POKEMONS];
-
+    
     
     for(int i = 0; i < QTD_POKEMONS; i++){
         copia[i] = game.Pokedex[i];
     }
     
-
+    
     //std::vector<PokemonEntity> copia;
-
+    
     /*
     for(PokemonEntity p: game.Pokedex){
         copia.push_back(p);
@@ -313,5 +293,53 @@ void calcular_resultado_combate(GameData &game){
         game.resultado_batalha.setString("Empate!");
         game.resultado_batalha.setFillColor(sf::Color(255, 255, 255));
         game.resultado_batalha.setPosition({520.f, 100.f});
+    }
+}
+void exibir_time_vencedor(GameData &game, sf::RenderWindow &window){
+    Fila temp(TAMANHO_TIMES + TAMANHO_TIMES);
+    float posicaoX = 100.f;
+    float posicaoY = 250.f;
+    int cont = 0;
+    while(!game.jogador_aux.vazia()){
+        cont++;
+        PokemonEntity aux;
+        bool baux;
+        game.jogador_aux.desenfileira(&aux, &baux);
+        sf::Text nome_pokemon(game.fonte, aux.get_nome());
+        sf::Texture imagem_poke;
+        imagem_poke.loadFromFile(aux.get_imagem());
+
+        temp.enfileira(aux, &baux);
+
+        sf::Sprite sprite_pokemon(imagem_poke);
+        sprite_pokemon.setPosition({posicaoX, posicaoY});
+        auto sz = imagem_poke.getSize();
+        sprite_pokemon.setScale({static_cast<float>(200) / sz.x, static_cast<float>(200) / sz.y});
+        
+        adicionar_tipo(aux, nome_pokemon);
+        // Centraliza o texto no botão
+        nome_pokemon.setPosition({posicaoX, posicaoY + 200.f});
+        
+        if(game.pontos_jogador > game.pontos_PC){
+            if(cont % 2 != 0){
+                window.draw(sprite_pokemon);
+                window.draw(nome_pokemon);
+                posicaoX+=215.f;
+            }
+        }
+        else if(game.pontos_jogador < game.pontos_PC){
+            if(cont % 2 == 0){
+                window.draw(sprite_pokemon);
+                window.draw(nome_pokemon);
+                posicaoX+=215.f;
+            }
+        }
+    }
+    while(!temp.vazia()){
+        PokemonEntity aux;
+        bool baux;
+        
+        temp.desenfileira(&aux, &baux);
+        game.jogador_aux.enfileira(aux, &baux);
     }
 }
