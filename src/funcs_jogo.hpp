@@ -38,6 +38,7 @@ struct GameData{
     
     Fila fila_jogador{TAMANHO_TIMES};
     Fila fila_PC{TAMANHO_TIMES};
+    Fila jogador_aux{TAMANHO_TIMES + TAMANHO_TIMES};
 
     //std::vector<PokemonEntity> Pokedex;
     PokemonEntity Pokedex[QTD_POKEMONS];
@@ -73,3 +74,4 @@ void exibir_time_jogador(GameData &game, sf::RenderWindow &w);
 void adicionar_tipo(PokemonEntity p, sf::Text &tipo_texto);
 void calcular_resultado_batalha(GameData &game);
 void calcular_resultado_combate(GameData &game);
+void exibir_time_vencedor(GameData &game, sf::RenderWindow &window);
