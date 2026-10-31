@@ -10,3 +10,5 @@
 
 #define TAMANHO_TIMES 5
 #define QTD_POKEMONS 12
+#define QTD_BIOMAS 7  // nao definitivo
+#define MAX_POKEMONS_BIOMA 6 // nao definitivo
