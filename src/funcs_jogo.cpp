@@ -51,23 +51,124 @@ void Botao::desenhar(sf::RenderWindow& window) const {
 
 // Carregando a pokedex
 void carregar_dex(GameData& game){
-    game.Pokedex[0] = PokemonEntity("Bulbasaur", TipoPokemon::PLANTA, "imagens/bulbasaur.png");
-    game.Pokedex[1] = PokemonEntity("Charmander", TipoPokemon::FOGO, "imagens/charmander.png");
-    game.Pokedex[2] = PokemonEntity("Squirtle", TipoPokemon::AGUA, "imagens/squirtle.png");
-    game.Pokedex[3] = PokemonEntity("Chikorita", TipoPokemon::PLANTA, "imagens/chikorita.png");
-    game.Pokedex[4] = PokemonEntity("Cyndaquil", TipoPokemon::FOGO, "imagens/cyndaquil.png");
-    game.Pokedex[5] = PokemonEntity("Totodile", TipoPokemon::AGUA, "imagens/totodile.png");
-    game.Pokedex[6] = PokemonEntity("Treecko", TipoPokemon::PLANTA, "imagens/treecko.png");
-    game.Pokedex[7] = PokemonEntity("Torchic", TipoPokemon::FOGO, "imagens/torchic.png");
-    game.Pokedex[8] = PokemonEntity("Mudkip", TipoPokemon::AGUA, "imagens/mudkip.png");
-    game.Pokedex[9] = PokemonEntity("Turtwig", TipoPokemon::PLANTA, "imagens/turtwig.png");
-    game.Pokedex[10] = PokemonEntity("Chimchar", TipoPokemon::FOGO, "imagens/chimchar.png");
-    game.Pokedex[11] = PokemonEntity("Piplup", TipoPokemon::AGUA, "imagens/piplup.png");
+    game.Pokedex_planta[0] = PokemonEntity("Bulbasaur", TipoPokemon::PLANTA, "imagens/tipo_planta/bulbasaur.png");
+    game.Pokedex_planta[1] = PokemonEntity("Chikorita", TipoPokemon::PLANTA, "imagens/tipo_planta/chikorita.png");
+    game.Pokedex_planta[2] = PokemonEntity("Treecko", TipoPokemon::PLANTA, "imagens/tipo_planta/treecko.png");
+    game.Pokedex_planta[3] = PokemonEntity("Turtwig", TipoPokemon::PLANTA, "imagens/tipo_planta/turtwig.png");
+    game.Pokedex_planta[4] = PokemonEntity("Snivy", TipoPokemon::PLANTA, "imagens/tipo_planta/snivy.png");
+    game.Pokedex_planta[5] = PokemonEntity("Chespin", TipoPokemon::PLANTA, "imagens/tipo_planta/chespin.png");
+    game.Pokedex_planta[6] = PokemonEntity("Bellsprout", TipoPokemon::PLANTA, "imagens/tipo_planta/bellsprout.png");
+    game.Pokedex_planta[7] = PokemonEntity("Hoppip", TipoPokemon::PLANTA, "imagens/tipo_planta/hoppip.png");
+    game.Pokedex_planta[8] = PokemonEntity("Oddish", TipoPokemon::PLANTA, "imagens/tipo_planta/oddish.png");
+    game.Pokedex_planta[9] = PokemonEntity("Celebi", TipoPokemon::PLANTA, "imagens/tipo_planta/celebi.png");
+    game.Pokedex_planta[10] = PokemonEntity("Roselia", TipoPokemon::PLANTA, "imagens/tipo_planta/roselia.png");
+    game.Pokedex_planta[11] = PokemonEntity("Rowlet", TipoPokemon::PLANTA, "imagens/tipo_planta/rowlet.png");
+    game.Pokedex_planta[12] = PokemonEntity("Seedot", TipoPokemon::PLANTA, "imagens/tipo_planta/seedot.png");
+    
+    game.Pokedex_fogo[0] = PokemonEntity("Charmander", TipoPokemon::FOGO, "imagens/tipo_fogo/charmander.png");
+    game.Pokedex_fogo[1] = PokemonEntity("Cyndaquil", TipoPokemon::FOGO, "imagens/tipo_fogo/cyndaquil.png");
+    game.Pokedex_fogo[2] = PokemonEntity("Torchic", TipoPokemon::FOGO, "imagens/tipo_fogo/torchic.png");
+    game.Pokedex_fogo[3] = PokemonEntity("Chimchar", TipoPokemon::FOGO, "imagens/tipo_fogo/chimchar.png");
+    game.Pokedex_fogo[4] = PokemonEntity("Tepig", TipoPokemon::FOGO, "imagens/tipo_fogo/tepig.png");
+    game.Pokedex_fogo[5] = PokemonEntity("Fennekin", TipoPokemon::FOGO, "imagens/tipo_fogo/fennekin.png");
+    game.Pokedex_fogo[6] = PokemonEntity("Entei", TipoPokemon::FOGO, "imagens/tipo_fogo/entei.png");
+    game.Pokedex_fogo[7] = PokemonEntity("Growlithe", TipoPokemon::FOGO, "imagens/tipo_fogo/growlithe.png");
+    game.Pokedex_fogo[8] = PokemonEntity("Magmar", TipoPokemon::FOGO, "imagens/tipo_fogo/magmar.png");
+    game.Pokedex_fogo[9] = PokemonEntity("Pansear", TipoPokemon::FOGO, "imagens/tipo_fogo/pansear.png");
+    game.Pokedex_fogo[10] = PokemonEntity("Vulpix", TipoPokemon::FOGO, "imagens/tipo_fogo/vulpix.png");
+    game.Pokedex_fogo[11] = PokemonEntity("Ponyta", TipoPokemon::FOGO, "imagens/tipo_fogo/ponyta.png");
+    game.Pokedex_fogo[12] = PokemonEntity("Litwick", TipoPokemon::FOGO, "imagens/tipo_fogo/litwick.png");
+    
+    game.Pokedex_agua[0] = PokemonEntity("Squirtle", TipoPokemon::AGUA, "imagens/tipo_agua/squirtle.png");
+    game.Pokedex_agua[1] = PokemonEntity("Totodile", TipoPokemon::AGUA, "imagens/tipo_agua/totodile.png");
+    game.Pokedex_agua[2] = PokemonEntity("Mudkip", TipoPokemon::AGUA, "imagens/tipo_agua/mudkip.png");
+    game.Pokedex_agua[3] = PokemonEntity("Piplup", TipoPokemon::AGUA, "imagens/tipo_agua/piplup.png");
+    game.Pokedex_agua[4] = PokemonEntity("Oshawott", TipoPokemon::AGUA, "imagens/tipo_agua/oshawott.png");
+    game.Pokedex_agua[5] = PokemonEntity("Froakie", TipoPokemon::AGUA, "imagens/tipo_agua/froakie.png");
+    game.Pokedex_agua[6] = PokemonEntity("Horsea", TipoPokemon::AGUA, "imagens/tipo_agua/horsea.png");
+    game.Pokedex_agua[7] = PokemonEntity("Magikarp", TipoPokemon::AGUA, "imagens/tipo_agua/magikarp.png");
+    game.Pokedex_agua[8] = PokemonEntity("Poliwag", TipoPokemon::AGUA, "imagens/tipo_agua/poliwag.png");
+    game.Pokedex_agua[9] = PokemonEntity("Seel", TipoPokemon::AGUA, "imagens/tipo_agua/seel.png");
+    game.Pokedex_agua[10] = PokemonEntity("Suicune", TipoPokemon::AGUA, "imagens/tipo_agua/suicune.png");
+    game.Pokedex_agua[11] = PokemonEntity("Tentacool", TipoPokemon::AGUA, "imagens/tipo_agua/tentacool.png");
+    game.Pokedex_agua[12] = PokemonEntity("Wooper", TipoPokemon::AGUA, "imagens/tipo_agua/eooper.png");
+
+    // Pokedex completa para o time do computador
+    for (int i = 0; i < QTD_POKEMONS / 3; i++) {
+        game.Pokedex[i] = game.Pokedex_planta[i];
+        game.Pokedex[QTD_POKEMONS / 3 + i] = game.Pokedex_fogo[i];
+        game.Pokedex[2 * (QTD_POKEMONS / 3) + i] = game.Pokedex_agua[i];
+    }
+}
+
+void inicializa_arvore_biomas(GameData &game){
+    game.bioma_planta[0] = Bioma("Amazonia");
+    game.bioma_planta[1] = Bioma("Taiga");
+    game.bioma_planta[2] = Bioma("Floresta Temperada");
+    game.bioma_planta[3] = Bioma("Mata Atlantica");
+
+    game.bioma_fogo[0] = Bioma("Magmania");
+    game.bioma_fogo[1] = Bioma("Caldeira");
+    game.bioma_fogo[2] = Bioma("Fornalha");
+    game.bioma_fogo[3] = Bioma("Ignis");
+
+    game.bioma_agua[0] = Bioma("Atlantico");
+    game.bioma_agua[1] = Bioma("Coralia");
+    game.bioma_agua[2] = Bioma("Mareia");
+    game.bioma_agua[3] = Bioma("Abissal");
+
+    PokemonEntity copia_planta[(QTD_POKEMONS/3) - 1];
+    PokemonEntity copia_fogo[(QTD_POKEMONS/3) - 1];
+    PokemonEntity copia_agua[(QTD_POKEMONS/3) - 1];
+
+    for (int i = 0; i < QTD_POKEMONS/3 - 1; i++) {
+        copia_planta[i] = game.Pokedex_planta[i+1];
+        copia_fogo[i] = game.Pokedex_fogo[i+1];
+        copia_agua[i] = game.Pokedex_agua[i+1];
+    }
+
+    for (int i = QTD_POKEMONS/3 - 2; i > 0; i--) {
+        int j = rand() % (i + 1);
+        PokemonEntity tmp_planta = copia_planta[i];
+        PokemonEntity tmp_fogo = copia_fogo[i];
+        PokemonEntity tmp_agua = copia_agua[i];
+
+        copia_planta[i] = copia_planta[j];
+        copia_planta[j] = tmp_planta;
+
+        copia_fogo[i] = copia_fogo[j];
+        copia_fogo[j] = tmp_fogo;
+
+        copia_agua[i] = copia_agua[j];
+        copia_agua[j] = tmp_agua;
+    }
+
+    int indice_proximo_copiar = 0;
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 3; j++){
+            bool ok_insere_poke_aux;
+
+            game.bioma_planta[i].insere_pokemon(j, copia_planta[indice_proximo_copiar], &ok_insere_poke_aux);
+            game.bioma_fogo[i].insere_pokemon(j, copia_fogo[indice_proximo_copiar], &ok_insere_poke_aux);
+            game.bioma_agua[i].insere_pokemon(j, copia_agua[indice_proximo_copiar], &ok_insere_poke_aux);
+
+            indice_proximo_copiar++;
+        }
+    }
+
+    bool ok_bioma_aux, ok_insere_poke;
+
+    cria_arvore(game.arvore_biomas);
+    insere_bioma(game.arvore_biomas, Bioma("Inicial"), &ok_bioma_aux);
+
+    game.arvore_biomas.raiz->biome.insere_pokemon(0, game.Pokedex_planta[0], &ok_insere_poke);
+    game.arvore_biomas.raiz->biome.insere_pokemon(1, game.Pokedex_fogo[0], &ok_insere_poke);
+    game.arvore_biomas.raiz->biome.insere_pokemon(2, game.Pokedex_agua[0], &ok_insere_poke);
 }
 
 // criando filas aleatórias
 void randomiza_fila_pc(GameData &game){
-    //std::vector<PokemonEntity> copia;
     PokemonEntity copia[QTD_POKEMONS];
 
     
@@ -75,13 +176,6 @@ void randomiza_fila_pc(GameData &game){
         copia[i] = game.Pokedex[i];
     }
     
-
-    /*
-    for(PokemonEntity p: game.Pokedex){
-        copia.push_back(p);
-    }
-    */
-
     for (int i = QTD_POKEMONS - 1; i > 0; i--) {
         int j = rand() % (i + 1);
         PokemonEntity tmp = copia[i];
@@ -122,6 +216,7 @@ void exibir_time_pc(GameData &game, sf::RenderWindow &window){
         sprite_pokemon.setScale({static_cast<float>(200) / sz.x, static_cast<float>(200) / sz.y});
         
         adicionar_tipo(aux, nome_pokemon);
+
         // Centraliza o texto no botão
         nome_pokemon.setPosition({posicaoX, posicaoY + 200.f});
         
@@ -203,23 +298,19 @@ void exibir_time_jogador(GameData &game, sf::RenderWindow &window){
 // Randomizando a fila das escolhas possíveis do jogador no estado de CAPTURA
 void randomiza_fila_escolha(GameData &game, Fila &f){
     
-    PokemonEntity copia[QTD_POKEMONS];
+    PokemonEntity copia[MAX_POKEMONS_BIOMA];
     
-    
-    for(int i = 0; i < QTD_POKEMONS; i++){
-        copia[i] = game.Pokedex[i];
-    }
-    
-    
-    //std::vector<PokemonEntity> copia;
-    
-    /*
-    for(PokemonEntity p: game.Pokedex){
-        copia.push_back(p);
-    }
-    */
+    for(int i = 0; i < MAX_POKEMONS_BIOMA; i++){
+        PokemonEntity aux_pok;
+        bool aux_ok;
+        game.arvore_biomas.atual->biome.get_pokemon(i, &aux_pok, &aux_ok);
 
-    for (int i = QTD_POKEMONS - 1; i > 0; i--) {
+        if(aux_ok){
+            copia[i] = aux_pok;
+        }
+    }
+    
+    for (int i = MAX_POKEMONS_BIOMA - 1; i > 0; i--) {
         int j = rand() % (i + 1);
         PokemonEntity tmp = copia[i];
         copia[i] = copia[j];
@@ -227,18 +318,11 @@ void randomiza_fila_escolha(GameData &game, Fila &f){
     }
 
     
-    for(int i = 0; i < QTD_POKEMONS; i++){
+    for(int i = 0; i < MAX_POKEMONS_BIOMA; i++){
         bool aux;
         f.enfileira(copia[i], &aux);
     }
     
-
-    /*
-    for(PokemonEntity p: copia){
-        bool aux;
-        f.enfileira(p, &aux);
-    }
-    */
 }
 
 // Define cor do texto dependendo do tipo do Pokemon
@@ -342,4 +426,23 @@ void exibir_time_vencedor(GameData &game, sf::RenderWindow &window){
         temp.desenfileira(&aux, &baux);
         game.jogador_aux.enfileira(aux, &baux);
     }
+}
+
+bool prepara_biomas(GameData& game, int indice) {
+    NodeBiomaPtr atual = game.arvore_biomas.atual;
+
+    if (atual == nullptr || indice < 0 || indice >= 4) {
+        return false;
+    }
+
+    if (atual->filhos[0] == nullptr) {
+        atual->filhos[0] =
+            new NodeBioma(game.bioma_planta[indice], atual);
+        atual->filhos[1] =
+            new NodeBioma(game.bioma_fogo[indice], atual);
+        atual->filhos[2] =
+            new NodeBioma(game.bioma_agua[indice], atual);
+    }
+
+    return true;
 }
