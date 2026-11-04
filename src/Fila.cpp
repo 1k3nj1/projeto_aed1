@@ -69,3 +69,12 @@ int Fila::get_tamanho() const{
 void Fila::pegaPrimeiro(PokemonEntity &p) const{
     p = inicio->poke;
 }
+
+void Fila::esvazia_fila() {
+    PokemonEntity descartado;
+    bool ok;
+
+    while (!this->vazia()) {
+        this->desenfileira(&descartado, &ok);
+    }
+}

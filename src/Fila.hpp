@@ -24,6 +24,7 @@ class Fila {
         void desenfileira(PokemonEntity *p, bool *ok);
         bool cheia();
         bool vazia();
+        void esvazia_fila();
 
         int get_tamanho() const;
 

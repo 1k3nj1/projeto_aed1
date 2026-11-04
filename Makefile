@@ -13,7 +13,8 @@ TARGET   := app
 SRCS     := main.cpp \
             src/funcs_jogo.cpp \
             src/Fila.cpp \
-            src/PokemonEntity.cpp
+            src/PokemonEntity.cpp \
+            src/ArvoreBioma.cpp 
 
 # Transforma a lista de .cpp em .o
 OBJS     := $(SRCS:.cpp=.o)

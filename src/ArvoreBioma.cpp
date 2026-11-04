@@ -2,7 +2,7 @@
 #include <string>
 #include "PokemonEntity.hpp"
 #include "ArvoreBioma.hpp"
-#include "DEFINTIONS.hpp"
+#include "DEFINITIONS.hpp"
 
 using namespace std;
 
@@ -31,6 +31,21 @@ void Bioma::insere_pokemon(int pos, PokemonEntity p, bool *ok) {
     *ok = true;
 }
 
+void Bioma::get_pokemon(int pos, PokemonEntity *p, bool *ok){
+    if (pos < 0 || pos >= qtd_poke) {
+        *ok = false;
+        return;
+    }
+
+    *p = lista_pokemons[pos];
+    *ok = true;
+}
+
+void cria_arvore(ArvoreBioma &ab){
+    ab.raiz = nullptr;
+    ab.atual = ab.raiz;
+}
+
 // Operação de inserir bioma na árvore
 void insere_bioma(ArvoreBioma &ab, Bioma b, bool *ok){
     if(vazia(ab)){
@@ -45,19 +60,17 @@ void insere_bioma(ArvoreBioma &ab, Bioma b, bool *ok){
         return;
     }
 
-    if(ab.atual->esq != nullptr && ab.atual->dir != nullptr){
-        *ok = false;
-    } else {
-        NodeBiomaPtr novo = new NodeBioma(b, ab.atual);
-
-        if(ab.atual->esq == nullptr){
-            ab.atual->esq = novo;
-        } else {
-            ab.atual->dir = novo;
+    for (int i = 0; i < 3; i++) {
+        if (ab.atual->filhos[i] == nullptr) {
+            NodeBiomaPtr novo = new NodeBioma(b, ab.atual);
+            ab.atual->filhos[i] = novo;
+            *ok = true;
+            return; 
         }
-
-        *ok = true;
     }
+
+    // Se percorreu os 3 filhos e nenhum estava nulo, o nó atual está cheio
+    *ok = false;
 }
 
 // Operação de retirar bioma da árvore
@@ -68,9 +81,11 @@ void retira_bioma(ArvoreBioma &ab, Bioma *b, bool *ok){
         return;
     }
 
-    if (ab.atual->esq != nullptr || ab.atual->dir != nullptr) {
-        *ok = false; 
-        return;
+    for (int i = 0; i < 3; i++) {
+        if (ab.atual->filhos[i] != nullptr) {
+            *ok = false; 
+            return;
+        }
     }
 
     NodeBiomaPtr no_remover = ab.atual;
@@ -81,10 +96,12 @@ void retira_bioma(ArvoreBioma &ab, Bioma *b, bool *ok){
         ab.atual = nullptr;
     } else {
         NodeBiomaPtr pai = no_remover->pai;
-        if (pai->esq == no_remover) {
-            pai->esq = nullptr;
-        } else if (pai->dir == no_remover) {
-            pai->dir = nullptr;
+
+        for (int i = 0; i < 3; i++) {
+            if (pai->filhos[i] == no_remover) {
+                pai->filhos[i] = nullptr;
+                break;
+            }
         }
         ab.atual = pai; 
     }
@@ -95,12 +112,13 @@ void retira_bioma(ArvoreBioma &ab, Bioma *b, bool *ok){
 
 // Função auxiliar para destruir node
 void destroi_node(NodeBiomaPtr b){
-    if(b == nullptr){
+    if (b == nullptr) {
         return;
     }
 
-    destroi_node(b->esq);
-    destroi_node(b->dir);
+    for (int i = 0; i < 3; i++) {
+        destroi_node(b->filhos[i]);
+    }
 
     delete b;
 }
@@ -124,17 +142,18 @@ int altura(ArvoreBioma &ab){
 
 // Função auxiliar para calculo da altura da arvore
 int altura_node(NodeBiomaPtr p){
-    if(p == nullptr){
+    if (p == nullptr) {
         return 0;
-    } else {
-        int alt_esq = altura_node(p->esq);
-        int alt_dir = altura_node(p->dir);
-
-        int alt_maior = alt_esq;
-
-        if(alt_dir > alt_esq){
-            alt_maior = alt_dir;
-        }
-        return 1 + alt_maior;
     }
+
+    int alt_maior = 0;
+
+    for (int i = 0; i < 3; i++) {
+        int h = altura_node(p->filhos[i]);
+        if (h > alt_maior) {
+            alt_maior = h;
+        }
+    }
+
+    return 1 + alt_maior;
 }

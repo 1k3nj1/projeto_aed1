@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Fila.hpp"
+#include "ArvoreBioma.hpp"
 #include <SFML/Graphics.hpp>    
 #include "DEFINITIONS.hpp"
 
@@ -14,7 +15,8 @@ enum Estado {
     TELA_INICIAL,
     MENU,
     VER_TIME_PC,
-    ESCOLHA,
+    ESCOLHA_POKEMON,
+    ESCOLHA_BIOMA,
     BATALHA,
     TELA_FINAL,
     VER_TIME_JOGADOR
@@ -40,13 +42,21 @@ struct GameData{
     Fila fila_PC{TAMANHO_TIMES};
     Fila jogador_aux{TAMANHO_TIMES + TAMANHO_TIMES};
 
-    //std::vector<PokemonEntity> Pokedex;
     PokemonEntity Pokedex[QTD_POKEMONS];
+    PokemonEntity Pokedex_planta[QTD_POKEMONS/3];
+    PokemonEntity Pokedex_fogo[QTD_POKEMONS/3];
+    PokemonEntity Pokedex_agua[QTD_POKEMONS/3];
+
+    Bioma bioma_planta[4];
+    Bioma bioma_fogo[4];
+    Bioma bioma_agua[4];
+
+    ArvoreBioma arvore_biomas;
+
     int indice_atual{0};
     int tentativas_restantes{3};
     std::string mensagem_captura{""};
 
-    
     // Recursos
     sf::Font fonte;
     sf::Texture splash_textura;
@@ -67,6 +77,7 @@ struct GameData{
 };
 
 void carregar_dex(GameData& game);
+void inicializa_arvore_biomas(GameData &game);
 void randomiza_fila_pc(GameData &game);
 void randomiza_fila_escolha(GameData &game, Fila &f);
 void exibir_time_pc(GameData &game, sf::RenderWindow &w);
@@ -75,3 +86,4 @@ void adicionar_tipo(PokemonEntity p, sf::Text &tipo_texto);
 void calcular_resultado_batalha(GameData &game);
 void calcular_resultado_combate(GameData &game);
 void exibir_time_vencedor(GameData &game, sf::RenderWindow &window);
+bool prepara_biomas(GameData& game, int indice);

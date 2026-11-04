@@ -4,11 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include "src/funcs_jogo.hpp"
 
-/*
-    g++ main.cpp src/funcs_jogo.cpp src/Fila.cpp src/PokemonEntity.cpp -o app -lsfml-graphics -lsfml-window -lsfml-system
-    ./app
-*/
-
 int main() {
     srand(time(nullptr));
 
@@ -20,6 +15,9 @@ int main() {
     GameData game;
 
     carregar_dex(game);
+    inicializa_arvore_biomas(game);
+    int indice_bioma_a_colocar = 0;
+
     bool ja_randomizou = false;
     // randomiza_fila(game);
 
@@ -70,10 +68,10 @@ int main() {
 
                     else if(game.estado_atual == Estado::VER_TIME_PC && btn_continuar.clicado(window)){
                         std::cout << "Botao de continuar clicado" << std::endl;
-                        game.estado_atual = Estado::ESCOLHA;
+                        game.estado_atual = Estado::ESCOLHA_POKEMON;
                     }
 
-                    else if(game.estado_atual == Estado::ESCOLHA){
+                    else if(game.estado_atual == Estado::ESCOLHA_POKEMON){
                         if(btn_capturar.clicado(window)){
                             PokemonEntity aux1;
                             bool baux1;
@@ -83,10 +81,17 @@ int main() {
 
                             if(game.fila_jogador.cheia()){
                                 game.estado_atual = Estado::VER_TIME_JOGADOR;
+                            } else {
+                                random_escolha.esvazia_fila();
+
+                                if (prepara_biomas(game, indice_bioma_a_colocar)) {
+                                    game.estado_atual = Estado::ESCOLHA_BIOMA;
+                                } else {
+                                    game.estado_atual = Estado::VER_TIME_JOGADOR;
+                                }
                             }
 
                             std::cout << "Botao de captura clicado" << std::endl;
-
                         }
 
                         if(btn_pular.clicado(window)){
@@ -96,8 +101,7 @@ int main() {
                             random_escolha.desenfileira(&aux2, &baux2); 
                             std::cout << "Botao de pular clicado" << std::endl;
                         }
-                    }
-                    else if(game.estado_atual == Estado::BATALHA && btn_batalhar.clicado(window)){
+                    } else if(game.estado_atual == Estado::BATALHA && btn_batalhar.clicado(window)){
                         std::cout << "Botao de batalhar clicado" << std::endl;
 
                         if(!batalhou){
@@ -135,10 +139,10 @@ int main() {
                             }
                             */
                             while(!game.jogador_aux.vazia()){
-                            PokemonEntity aux;
-                            bool baux;
-                            
-                            game.jogador_aux.desenfileira(&aux, &baux);
+                                PokemonEntity aux;
+                                bool baux;
+                                
+                                game.jogador_aux.desenfileira(&aux, &baux);
                             }
                                game.pontos_jogador = 0;
                                game.pontos_PC = 0;
@@ -154,6 +158,42 @@ int main() {
                     std::cout << "the left button was pressed" << std::endl;
                     std::cout << "mouse x: " << mouseButtonPressed->position.x << std::endl;
                     std::cout << "mouse y: " << mouseButtonPressed->position.y << std::endl;
+                }
+            }
+
+            if (const auto* tecla = event->getIf<sf::Event::KeyPressed>()) {
+                if (game.estado_atual == Estado::ESCOLHA_BIOMA) {
+                    int indice_escolhido = -1;
+
+                    switch (tecla->code) {
+                        case sf::Keyboard::Key::Num1:
+                            indice_escolhido = 0;
+                            break;
+                        case sf::Keyboard::Key::Num2:
+                            indice_escolhido = 1;
+                            break;
+                        case sf::Keyboard::Key::Num3:
+                            indice_escolhido = 2;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (indice_escolhido >= 0 &&
+                        game.arvore_biomas.atual != nullptr) {
+                        NodeBiomaPtr escolhido =
+                            game.arvore_biomas.atual->filhos[indice_escolhido];
+
+                        if (escolhido != nullptr) {
+                            game.arvore_biomas.atual = escolhido;
+                            indice_bioma_a_colocar++;
+
+                            random_escolha.esvazia_fila();
+                            randomiza_fila_escolha(game, random_escolha);
+
+                            game.estado_atual = Estado::ESCOLHA_POKEMON;
+                        }
+                    }
                 }
             }
         }
@@ -223,7 +263,7 @@ int main() {
                 btn_continuar.desenhar(window);
                 break;
             
-            case Estado::ESCOLHA: {
+            case Estado::ESCOLHA_POKEMON: {
                 PokemonEntity paux;
                 bool baux;
 
@@ -250,6 +290,30 @@ int main() {
                 btn_pular.desenhar(window);
                 window.draw(game.sprite_atual);
                 window.draw(nome_p);
+                break;
+            }
+
+            case Estado::ESCOLHA_BIOMA: {
+                NodeBiomaPtr atual = game.arvore_biomas.atual;
+
+                if (atual != nullptr) {
+                    sf::Text titulo(game.fonte, "Escolha um bioma: pressione 1, 2 ou 3");
+                    titulo.setPosition({250.f, 150.f});
+                    window.draw(titulo);
+
+                    for (int i = 0; i < 3; i++) {
+                        if (atual->filhos[i] != nullptr) {
+                            std::string opcao =
+                                std::to_string(i + 1) + " - " +
+                                atual->filhos[i]->biome.get_nome();
+
+                            sf::Text texto(game.fonte, opcao);
+                            texto.setPosition({350.f, 250.f + i * 80.f});
+                            window.draw(texto);
+                        }
+                    }
+                }
+
                 break;
             }
 
