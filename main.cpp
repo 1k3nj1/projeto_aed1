@@ -226,6 +226,22 @@ int main() {
                 game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
             }
         }
+
+        if(game.estado_atual == Estado::ESCOLHA_POKEMON){
+            if (game.textura_atual.loadFromFile(CAMINHO_TELA_ESCOLHA_POKEMON)) {
+                game.sprite_atual.setTexture(game.textura_atual, true);
+                auto sz = game.textura_atual.getSize();
+                game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
+            }
+        }
+
+        if(game.estado_atual == Estado::ESCOLHA_BIOMA){
+            if (game.textura_atual.loadFromFile(CAMINHO_TELA_ESCOLHA_BIOMA)) {
+                game.sprite_atual.setTexture(game.textura_atual, true);
+                auto sz = game.textura_atual.getSize();
+                game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
+            }
+        }
         
         /*
         if(game.estado_atual == Estado::TELA_FINAL){
@@ -263,7 +279,11 @@ int main() {
                 btn_continuar.desenhar(window);
                 break;
             
+                
             case Estado::ESCOLHA_POKEMON: {
+                game.sprite_atual.setPosition({0.0, 0.0});
+                window.draw(game.sprite_atual);
+
                 PokemonEntity paux;
                 bool baux;
 
@@ -276,13 +296,14 @@ int main() {
                 //}
 
                 sf::Text nome_p(game.fonte, paux.get_nome());
-                nome_p.setPosition({600.f, 100.f});
+                nome_p.setPosition({450.f, 40.f});
+                nome_p.setCharacterSize(80);
                 game.textura_atual.loadFromFile(paux.get_imagem());
 
                 adicionar_tipo(paux, nome_p);
 
                 game.sprite_atual.setTexture(game.textura_atual);
-                game.sprite_atual.setPosition({500.f, 150.f});
+                game.sprite_atual.setPosition({500.f, 180.f});
                 auto sz = game.textura_atual.getSize();
                 game.sprite_atual.setScale({static_cast<float>(300) / sz.x, static_cast<float>(300) / sz.y});
             
@@ -294,21 +315,24 @@ int main() {
             }
 
             case Estado::ESCOLHA_BIOMA: {
+                game.sprite_atual.setPosition({0.0, 0.0});
+                window.draw(game.sprite_atual);
                 NodeBiomaPtr atual = game.arvore_biomas.atual;
 
                 if (atual != nullptr) {
-                    sf::Text titulo(game.fonte, "Escolha um bioma: pressione 1, 2 ou 3");
-                    titulo.setPosition({250.f, 150.f});
+                    sf::Text titulo(game.fonte, "Escolha um bioma: pressione");
+                    titulo.setPosition({425.f, 40.f});
+                    titulo.setFillColor(sf::Color(0, 0, 0));
+
                     window.draw(titulo);
 
                     for (int i = 0; i < 3; i++) {
                         if (atual->filhos[i] != nullptr) {
-                            std::string opcao =
-                                std::to_string(i + 1) + " - " +
-                                atual->filhos[i]->biome.get_nome();
+                            std::string opcao = atual->filhos[i]->biome.get_nome();
 
                             sf::Text texto(game.fonte, opcao);
-                            texto.setPosition({350.f, 250.f + i * 80.f});
+                            texto.setPosition({120.f + i * 450.f, 630.f});
+                            texto.setFillColor(sf::Color(0, 0, 0));
                             window.draw(texto);
                         }
                     }

@@ -91,7 +91,7 @@ void carregar_dex(GameData& game){
     game.Pokedex_agua[9] = PokemonEntity("Seel", TipoPokemon::AGUA, "imagens/tipo_agua/seel.png");
     game.Pokedex_agua[10] = PokemonEntity("Suicune", TipoPokemon::AGUA, "imagens/tipo_agua/suicune.png");
     game.Pokedex_agua[11] = PokemonEntity("Tentacool", TipoPokemon::AGUA, "imagens/tipo_agua/tentacool.png");
-    game.Pokedex_agua[12] = PokemonEntity("Wooper", TipoPokemon::AGUA, "imagens/tipo_agua/eooper.png");
+    game.Pokedex_agua[12] = PokemonEntity("Wooper", TipoPokemon::AGUA, "imagens/tipo_agua/wooper.png");
 
     // Pokedex completa para o time do computador
     for (int i = 0; i < QTD_POKEMONS / 3; i++) {
