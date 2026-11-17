@@ -29,6 +29,20 @@ int main() {
     if (!game.fonte.openFromFile("src/arial.ttf")) {
         std::cerr << "Erro ao carregar fonte em src/arial.ttf!\n";
     }
+    sf::Texture fraqueza_tipos;
+    sf::Sprite sprite_fraqueza_tipos{fraqueza_tipos};
+    if (fraqueza_tipos.loadFromFile(CAMINHO_SPRITE_TIPO)) {
+            sprite_fraqueza_tipos.setTexture(fraqueza_tipos, true);
+            auto sz = fraqueza_tipos.getSize();
+            sprite_fraqueza_tipos.setScale({static_cast<float>(350) / sz.x, static_cast<float>(350) / sz.y});
+    }
+    //Caixa usada nas introduções do jogo;
+    sf::RectangleShape caixa_intro;
+    caixa_intro.setPosition({175.f, 420.f});
+    caixa_intro.setSize({970.f, 200.f});
+    caixa_intro.setFillColor(sf::Color(255, 255, 255, 200));
+    caixa_intro.setOutlineColor(sf::Color::Black);
+    caixa_intro.setOutlineThickness(5.f);
 
     // Criando botões
     Botao btn_batalhar({540.f, 600.f}, {150.f, 50.f}, "Batalhar", game.fonte);
@@ -43,7 +57,7 @@ int main() {
     // Carrega tela inicial
     if (game.splash_textura.loadFromFile(CAMINHO_TELA_INICIAL)) {
         game.splash_sprite.setTexture(game.splash_textura, true);
-        auto sz = game.splash_textura.getSize();
+            auto sz = game.splash_textura.getSize();
         game.splash_sprite.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
     }
     
@@ -63,7 +77,7 @@ int main() {
                 {
                     if(game.estado_atual == Estado::MENU && btn_comecar.clicado(window)){
                         std::cout << "Botao de play clicado" << std::endl;
-                        game.estado_atual = Estado::VER_TIME_PC;
+                        game.estado_atual = Estado::INTRODUCAO;
                     }
 
                     else if(game.estado_atual == Estado::VER_TIME_PC && btn_continuar.clicado(window)){
@@ -155,6 +169,12 @@ int main() {
                     else if(game.estado_atual == Estado::VER_TIME_JOGADOR && btn_batalhar.clicado(window)){
                         game.estado_atual = Estado::BATALHA;
                     }
+                    else if(game.estado_atual == Estado::INTRODUCAO){
+                        game.estado_atual = Estado::TIPO_EXPLICACAO;
+                    }
+                    else if(game.estado_atual == Estado::TIPO_EXPLICACAO){
+                        game.estado_atual = Estado::VER_TIME_PC;
+                    }
                     std::cout << "the left button was pressed" << std::endl;
                     std::cout << "mouse x: " << mouseButtonPressed->position.x << std::endl;
                     std::cout << "mouse y: " << mouseButtonPressed->position.y << std::endl;
@@ -237,6 +257,13 @@ int main() {
 
         if(game.estado_atual == Estado::ESCOLHA_BIOMA){
             if (game.textura_atual.loadFromFile(CAMINHO_TELA_ESCOLHA_BIOMA)) {
+                game.sprite_atual.setTexture(game.textura_atual, true);
+                auto sz = game.textura_atual.getSize();
+                game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
+            }
+        }
+        if(game.estado_atual == Estado::INTRODUCAO){
+            if (game.textura_atual.loadFromFile(CAMINHO_TELA_INTRODUCAO)) {
                 game.sprite_atual.setTexture(game.textura_atual, true);
                 auto sz = game.textura_atual.getSize();
                 game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
@@ -435,8 +462,72 @@ int main() {
                     mostrou = true;
                 }
                 btn_batalhar.desenhar(window);
+                break;
             }
-            break;
+            case Estado::INTRODUCAO:{
+                window.draw(game.sprite_atual);
+                sf::Text texto_intro(game.fonte, "Hoje eu finalmete completei 10 anos, e agora poderei me tornar o mestre pokemon!");
+                sf::Text texto_intro2(game.fonte, "Mas para isso, precisarei descobrir os pokemons do meu inimigo");
+                sf::Text texto_intro3(game.fonte, "e capturar pokemons efetivos contra os dele!");
+                texto_intro.setFillColor(sf::Color(0, 0, 0));
+                texto_intro2.setFillColor(sf::Color(0, 0, 0));
+                texto_intro3.setFillColor(sf::Color(0, 0, 0));
+                texto_intro.setPosition({200.f, 450.f});
+                texto_intro2.setPosition({200.f, 500.f});
+                texto_intro3.setPosition({200.f, 550.f});
+                texto_intro.setScale({0.8f, 0.8f});
+                texto_intro2.setScale({0.8f, 0.8f});
+                texto_intro3.setScale({0.8f, 0.8f});
+                window.draw(caixa_intro);
+                window.draw(texto_intro);
+                window.draw(texto_intro2);
+                window.draw(texto_intro3);
+                break;
+            }
+            case Estado::TIPO_EXPLICACAO:{
+                window.draw(game.sprite_atual);
+                sprite_fraqueza_tipos.setPosition({450.f, 50.f});
+                window.draw(sprite_fraqueza_tipos);
+                caixa_intro.setPosition({50.f, 400.f});
+                caixa_intro.setSize({1200.f, 250.f});
+                sf::Text fogo(game.fonte, "FOGO");
+                sf::Text agua(game.fonte, "AGUA");
+                sf::Text planta(game.fonte, "PLANTA");
+                fogo.setScale({1.5f, 1.5f});
+                agua.setScale({1.5f, 1.5f});
+                planta.setScale({1.5f, 1.5f});
+                fogo.setFillColor(sf::Color({255, 0, 0}));
+                agua.setFillColor(sf::Color({0, 0, 255}));
+                planta.setFillColor(sf::Color({0, 255, 0}));
+                sf::Text explicacao(game.fonte, "Para isso, eu irei ver o time do meu inimigo antes, e sabendo os tipos de seus pokemons,");
+                sf::Text explicacao2(game.fonte, "eu irei escolher entre 3 biomas, cada um representando o lugar onde pokemons de um tipo especifico vivem.");
+                sf::Text explicacao3(game.fonte, "Existem somente 3 tipos de pokemons:  ");
+                sf::Text explicacao4(game.fonte, "a imagem acima mostra a fraqueza de cada tipo, conforme a sua cor");
+                explicacao4.setFillColor(sf::Color(0, 0, 0));
+                explicacao.setFillColor(sf::Color(0, 0, 0));
+                explicacao2.setFillColor(sf::Color(0, 0, 0));
+                explicacao3.setFillColor(sf::Color(0, 0, 0));
+                explicacao.setScale({0.8f, 0.8f});
+                explicacao2.setScale({0.8f, 0.8f});
+                explicacao3.setScale({0.8f, 0.8f});
+                explicacao4.setScale({0.8f, 0.8f});
+                explicacao.setPosition({80.f, 430.f});
+                explicacao2.setPosition({80.f, 460.f});
+                explicacao3.setPosition({80.f, 490.f});
+                explicacao4.setPosition({80.f, 600.f});
+                fogo.setPosition({300.f, 530.f});
+                planta.setPosition({550.f, 530.f});
+                agua.setPosition({850.f, 530.f});
+                window.draw(caixa_intro);
+                window.draw(explicacao);
+                window.draw(explicacao2);
+                window.draw(explicacao3);
+                window.draw(explicacao4);
+                window.draw(fogo);
+                window.draw(agua);
+                window.draw(planta);
+                break;
+            }
         }
 
         window.display();
