@@ -9,6 +9,8 @@
 #define CAMINHO_TELA_FINAL "imagens/game_assets/hallfame.png"
 #define CAMINHO_TELA_ESCOLHA_POKEMON "imagens/game_assets/background_escolha.png"
 #define CAMINHO_TELA_ESCOLHA_BIOMA "imagens/game_assets/bioma_escolha.png"
+#define CAMINHO_TELA_INTRODUCAO "imagens/game_assets/background_introducao.png"
+#define CAMINHO_SPRITE_TIPO "imagens/game_assets/fraqueza_tipos.png"
 
 #define TAMANHO_TIMES 5
 #define QTD_POKEMONS 39
