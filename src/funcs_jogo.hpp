@@ -19,7 +19,9 @@ enum Estado {
     ESCOLHA_BIOMA,
     BATALHA,
     TELA_FINAL,
-    VER_TIME_JOGADOR
+    VER_TIME_JOGADOR,
+    INTRODUCAO,
+    TIPO_EXPLICACAO
 };
 
 // 1 se tipoA vence, 0 caso contrário
