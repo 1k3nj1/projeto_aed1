@@ -11,6 +11,7 @@
 #define CAMINHO_TELA_ESCOLHA_BIOMA "imagens/game_assets/bioma_escolha.png"
 #define CAMINHO_TELA_INTRODUCAO "imagens/game_assets/background_introducao.png"
 #define CAMINHO_SPRITE_TIPO "imagens/game_assets/fraqueza_tipos.png"
+#define CAMINHO_SPRITE_JOGADOR "imagens/game_assets/jogador.png"
 
 #define TAMANHO_TIMES 5
 #define QTD_POKEMONS 39
