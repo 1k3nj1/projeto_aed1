@@ -1,0 +1,48 @@
+MIT License
+
+Copyright (c) 2026 Carlos Nishida, Henrique Sasamoto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+AVISO DE PROPRIEDADE INTELECTUAL DE TERCEIROS (THIRD-PARTY INTELLECTUAL PROPERTY)
+================================================================================
+
+A Licença MIT acima aplica-se EXCLUSIVAMENTE ao código-fonte, textos e ativos 
+originais criados pelos autores deste repositório, excluindo explicitamente o 
+conteúdo armazenado nos diretórios:
+
+  - /imagens/tipo_agua
+  - /imagens/tipo_fogo
+  - /imagens/tipo_planta
+
+e ao arquivo:
+  - /imagens/game_assets/jogo_splash.png
+  - /imagens/game_assets/jogador.png
+
+Pokémon, os nomes dos personagens Pokémon, sprites, ilustrações e demais ativos 
+visuais ou sonoros contidos nos caminhos acima são marcas registradas e 
+propriedade intelectual exclusiva da Nintendo, Creatures Inc. e Game Freak.
+
+Estes ativos de terceiros NÃO estão cobertos pela Licença MIT e são utilizados 
+neste projeto estritamente para fins educacionais e acadêmicos (sem fins 
+lucrativos), em conformidade com as limitações aos direitos autorais previstas 
+na legislação aplicável. Nenhum direito de propriedade 
+ou redistribuição comercial sobre tais marcas ou imagens é reivindicado ou 
+concedido por este repositório.
