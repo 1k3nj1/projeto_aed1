@@ -93,7 +93,7 @@ void carregar_dex(GameData& game){
     game.Pokedex_agua[11] = PokemonEntity("Tentacool", TipoPokemon::AGUA, "imagens/tipo_agua/tentacool.png");
     game.Pokedex_agua[12] = PokemonEntity("Wooper", TipoPokemon::AGUA, "imagens/tipo_agua/wooper.png");
 
-    // Pokedex completa para o time do computador
+    // Pokedex completa para completar time do computador
     for (int i = 0; i < QTD_POKEMONS / 3; i++) {
         game.Pokedex[i] = game.Pokedex_planta[i];
         game.Pokedex[QTD_POKEMONS / 3 + i] = game.Pokedex_fogo[i];
@@ -343,7 +343,7 @@ void calcular_resultado_batalha(GameData &game){
     int resultado = calcula_vantagem(game.poke_atual_jogador.get_tipo(), game.poke_atual_PC.get_tipo());
     if(resultado == 1){
         game.pontos_jogador++;
-        game.resultado_batalha.setString("Voce Venceu Essa Rodada!");
+        game.resultado_batalha.setString("Voce venceu esta rodada!");
         game.resultado_batalha.setFillColor(sf::Color(0, 255, 0));
         game.resultado_batalha.setPosition({280.f, 50.f});
     }
@@ -354,7 +354,7 @@ void calcular_resultado_batalha(GameData &game){
     }
     else if(resultado == 0){
         game.pontos_PC++;
-        game.resultado_batalha.setString("Voce Perdeu Essa Rodada!");
+        game.resultado_batalha.setString("Voce perdeu esta rodada!");
         game.resultado_batalha.setFillColor(sf::Color(255, 0, 0));
         game.resultado_batalha.setPosition({280.f, 50.f});
     }
@@ -364,20 +364,24 @@ void calcular_resultado_batalha(GameData &game){
 // Exibe texto com base no resultado final da batalha
 void calcular_resultado_combate(GameData &game){
     if(game.pontos_jogador > game.pontos_PC){
-        game.resultado_batalha.setString("Voce Venceu este Combate!");
+        game.resultado_batalha.setString("Voce venceu este combate!");
         game.resultado_batalha.setFillColor(sf::Color(0, 255, 0));
-        game.resultado_batalha.setPosition({280.f, 100.f});
+        game.resultado_batalha.setPosition({320.f, 50.f});
+        game.resultado_batalha.setScale({1.7f, 1.7f});
     }
     else if(game.pontos_jogador < game.pontos_PC){
-        game.resultado_batalha.setString("Voce Perdeu este Combate!");
+        game.resultado_batalha.setString("Voce perdeu este combate!");
         game.resultado_batalha.setFillColor(sf::Color(255, 0, 0));
-        game.resultado_batalha.setPosition({280.f, 100.f});
+        game.resultado_batalha.setPosition({320.f, 50.f});
+        game.resultado_batalha.setScale({1.7f, 1.7f});
     }
     else{
-        game.resultado_batalha.setString("Empate!");
+        game.resultado_batalha.setString("");
         game.resultado_batalha.setFillColor(sf::Color(255, 255, 255));
         game.resultado_batalha.setPosition({520.f, 100.f});
+        game.resultado_batalha.setScale({2.5f, 2.5f});
     }
+    
 }
 void exibir_time_vencedor(GameData &game, sf::RenderWindow &window){
     Fila temp(TAMANHO_TIMES + TAMANHO_TIMES);
@@ -401,6 +405,7 @@ void exibir_time_vencedor(GameData &game, sf::RenderWindow &window){
         sprite_pokemon.setScale({static_cast<float>(200) / sz.x, static_cast<float>(200) / sz.y});
         
         adicionar_tipo(aux, nome_pokemon);
+
         // Centraliza o texto no botão
         nome_pokemon.setPosition({posicaoX, posicaoY + 200.f});
         
@@ -436,13 +441,16 @@ bool prepara_biomas(GameData& game, int indice) {
     }
 
     if (atual->filhos[0] == nullptr) {
-        atual->filhos[0] =
-            new NodeBioma(game.bioma_planta[indice], atual);
-        atual->filhos[1] =
-            new NodeBioma(game.bioma_fogo[indice], atual);
-        atual->filhos[2] =
-            new NodeBioma(game.bioma_agua[indice], atual);
-    }
+        bool ok;
 
+        insere_bioma(game.arvore_biomas, game.bioma_planta[indice], &ok);
+        if (!ok) return false;
+
+        insere_bioma(game.arvore_biomas, game.bioma_fogo[indice], &ok);
+        if (!ok) return false;
+
+        insere_bioma(game.arvore_biomas, game.bioma_agua[indice], &ok);
+        if (!ok) return false;
+    }
     return true;
 }

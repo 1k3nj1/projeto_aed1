@@ -7,7 +7,7 @@
 int main() {
     srand(time(nullptr));
 
-    sf::RenderWindow window(sf::VideoMode({SCREEN_WIDTH, SCREEN_HEIGHT}), "Pokemon Fila simulator", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode({SCREEN_WIDTH, SCREEN_HEIGHT}), "Pokemon Simulator", sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
 
     window.setView(sf::View(sf::FloatRect({0.f, 0.f}, {static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)})));
@@ -18,18 +18,16 @@ int main() {
     inicializa_arvore_biomas(game);
     
     int indice_bioma_a_colocar = 0;
-
     bool ja_randomizou = false;
-    // randomiza_fila(game);
 
     Fila random_escolha(QTD_POKEMONS);
     Fila time_jogador_aux(TAMANHO_TIMES);
-    // randomiza_fila_escolha(game, random_escolha);
 
     // Fonte temporária (ou não)
     if (!game.fonte.openFromFile("src/arial.ttf")) {
         std::cerr << "Erro ao carregar fonte em src/arial.ttf!\n";
     }
+
     sf::Texture fraqueza_tipos;
     sf::Sprite sprite_fraqueza_tipos{fraqueza_tipos};
     if (fraqueza_tipos.loadFromFile(CAMINHO_SPRITE_TIPO)) {
@@ -37,6 +35,7 @@ int main() {
             auto sz = fraqueza_tipos.getSize();
             sprite_fraqueza_tipos.setScale({static_cast<float>(350) / sz.x, static_cast<float>(350) / sz.y});
     }
+
     //Caixa usada nas introduções do jogo;
     sf::RectangleShape caixa_intro;
     caixa_intro.setPosition({175.f, 420.f});
@@ -129,8 +128,9 @@ int main() {
                     else if(game.estado_atual == Estado::BATALHA && btn_resultado.clicado(window)){
                         game.estado_atual = Estado::TELA_FINAL;
                         game.pontuacao_combate.setString("" + std::to_string(game.pontos_jogador) + " X " + std::to_string(game.pontos_PC));
-                        game.pontuacao_combate.setPosition({520.f, 500.f});
-                        game.pontuacao_combate.setScale({3.f, 3.f});
+                        game.pontuacao_combate.setPosition({565.f, 575.f});
+                        game.pontuacao_combate.setFillColor(sf::Color(0, 0, 0));
+                        game.pontuacao_combate.setScale({2.f, 2.f});
                         calcular_resultado_combate(game);
                         mostrou = false;
                     }
@@ -151,15 +151,6 @@ int main() {
                         
                         if(btn_continuar_jogando.clicado(window)){
                             mostrou = false;
-
-                            /*while(!time_jogador_aux.vazia()){
-                            PokemonEntity aux;
-                            bool baux;
-                            
-                            time_jogador_aux.desenfileira(&aux, &baux);
-                                game.fila_jogador.enfileira(aux, &baux);
-                            }
-                            */
                            
                             while(!game.jogador_aux.vazia()){
                                 PokemonEntity aux;
@@ -170,7 +161,6 @@ int main() {
                             game.pontos_jogador = 0;
                             game.pontos_PC = 0;
                             randomiza_fila_pc(game);
-                            // randomiza_fila_escolha(game, random_escolha);
                             game.estado_atual = Estado::VER_TIME_PC;
                         }
 
@@ -248,6 +238,22 @@ int main() {
             }
         }
 
+        if (game.estado_atual == Estado::VER_TIME_PC) {
+            if (game.textura_atual.loadFromFile(CAMINHO_TELA_FUNDO_EXIBIR_TIME_PC)) {
+                game.sprite_atual.setTexture(game.textura_atual, true);
+                auto sz = game.textura_atual.getSize();
+                game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
+            }
+        }
+
+        if (game.estado_atual == Estado::VER_TIME_JOGADOR) {
+            if (game.textura_atual.loadFromFile(CAMINHO_TELA_FUNDO_EXIBIR_SEU_TIME)) {
+                game.sprite_atual.setTexture(game.textura_atual, true);
+                auto sz = game.textura_atual.getSize();
+                game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
+            }
+        }
+
         if(game.estado_atual == Estado::BATALHA){
             if (game.textura_atual.loadFromFile(CAMINHO_TELA_BATALHA)) {
                 game.sprite_atual.setTexture(game.textura_atual, true);
@@ -278,16 +284,6 @@ int main() {
                 game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
             }
         }
-        
-        /*
-        if(game.estado_atual == Estado::TELA_FINAL){
-            if (game.textura_atual.loadFromFile(CAMINHO_TELA_FINAL)) {
-                game.sprite_atual.setTexture(game.textura_atual, true);
-                auto sz = game.textura_atual.getSize();
-                game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
-            }
-        }
-        */
 
         // limpando o frame anterior
         window.clear(sf::Color(30, 30, 30));
@@ -303,11 +299,17 @@ int main() {
                 break;
             
             case Estado::VER_TIME_PC:
+                game.sprite_atual.setPosition({0.0, 0.0});
+                window.draw(game.sprite_atual);
+
                 if(!mostrou){
+                    /* 
                     sf::Text texto_titulo(game.fonte, "TIME DO OPONENTE");
                     texto_titulo.setPosition({300.f, 100.f});
                     texto_titulo.setScale({2.f, 2.f});
                     window.draw(texto_titulo);
+                    
+                    */
                     exibir_time_pc(game, window);
                     mostrou = true;
                 }
@@ -446,11 +448,27 @@ int main() {
             }
 
             case Estado::TELA_FINAL: {
-                /*
+                std::string imagem_bg;
+
+                if(game.pontos_jogador == game.pontos_PC){
+                    // exibe tela final de empate
+                    imagem_bg = CAMINHO_TELA_FUNDO_EMPATE;
+                    
+                } else {
+                    // exibe tela de fundo para algum vencedor
+                    imagem_bg = CAMINHO_TELA_FUNDO_TIME_VENCEDOR;
+                }
+
+                if (game.textura_atual.loadFromFile(imagem_bg)) {
+                    game.sprite_atual.setTexture(game.textura_atual, true);
+                    auto sz = game.textura_atual.getSize();
+                    game.sprite_atual.setScale({static_cast<float>(SCREEN_WIDTH) / sz.x, static_cast<float>(SCREEN_HEIGHT) / sz.y});
+                }
+
                 game.sprite_atual.setPosition({0.0, 0.0});
                 window.draw(game.sprite_atual);
-                */
-               if(!mostrou){
+
+                if(!mostrou){
                     exibir_time_vencedor(game, window);
                     window.draw(game.resultado_batalha);
                     window.draw(game.pontuacao_combate);
@@ -462,11 +480,16 @@ int main() {
             }
 
             case Estado::VER_TIME_JOGADOR:{
+                game.sprite_atual.setPosition({0.0, 0.0});
+                window.draw(game.sprite_atual);
+
                 if(!mostrou){
+                    /*
                     sf::Text texto_titulo(game.fonte, "SEU TIME");
                     texto_titulo.setPosition({500.f, 100.f});
                     texto_titulo.setScale({2.f, 2.f});
                     window.draw(texto_titulo);
+                    */
                     exibir_time_jogador(game, window);
                     mostrou = true;
                 }
