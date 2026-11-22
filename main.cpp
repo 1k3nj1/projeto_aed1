@@ -16,7 +16,6 @@ int main() {
 
     carregar_dex(game);
     inicializa_arvore_biomas(game);
-    
     int indice_bioma_a_colocar = 0;
     bool ja_randomizou = false;
 
@@ -143,13 +142,7 @@ int main() {
                         mostrou = false;
                     }
                     else if(game.estado_atual == Estado::TELA_FINAL){
-
-                        // correção para reiniciar arvore de biomas e fila de escolhas
-                        indice_bioma_a_colocar = 0;
-                        inicializa_arvore_biomas(game);
-                        random_escolha.esvazia_fila();
-                        randomiza_fila_escolha(game, random_escolha);
-
+                        
                         if(btn_terminar.clicado(window)){
                             game.jogador_aux.esvazia_fila();
                             ja_randomizou = false;
@@ -314,8 +307,9 @@ int main() {
                 if(!mostrou){
                     /* 
                     sf::Text texto_titulo(game.fonte, "TIME DO OPONENTE");
-                    texto_titulo.setPosition({300.f, 100.f});
+                    texto_titulo.setPosition({325.f, 50.f});
                     texto_titulo.setScale({2.f, 2.f});
+                    window.draw(game.sprite_atual);
                     window.draw(texto_titulo);
                     
                     */
