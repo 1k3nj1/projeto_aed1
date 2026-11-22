@@ -15,6 +15,7 @@
 #define CAMINHO_TELA_FUNDO_EXIBIR_SEU_TIME "imagens/game_assets/background_ver_seu_time.png"
 #define CAMINHO_TELA_FUNDO_TIME_VENCEDOR "imagens/game_assets/background_time_vencedor.png"
 #define CAMINHO_TELA_FUNDO_EMPATE "imagens/game_assets/background_empate.png"
+#define CAMINHO_SPRITE_JOGADOR "imagens/game_assets/jogador.png"
 
 #define TAMANHO_TIMES 5
 #define QTD_POKEMONS 39

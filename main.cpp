@@ -36,6 +36,14 @@ int main() {
             sprite_fraqueza_tipos.setScale({static_cast<float>(350) / sz.x, static_cast<float>(350) / sz.y});
     }
 
+    sf::Texture jogador;
+    sf::Sprite sprite_jogador{jogador};
+    if (jogador.loadFromFile(CAMINHO_SPRITE_JOGADOR)) {
+            sprite_jogador.setTexture(jogador, true);
+            auto sz = jogador.getSize();
+            sprite_jogador.setScale({static_cast<float>(350) / sz.x, static_cast<float>(350) / sz.y});
+    }
+
     //Caixa usada nas introduções do jogo;
     sf::RectangleShape caixa_intro;
     caixa_intro.setPosition({175.f, 420.f});
@@ -143,6 +151,7 @@ int main() {
                         randomiza_fila_escolha(game, random_escolha);
 
                         if(btn_terminar.clicado(window)){
+                            game.jogador_aux.esvazia_fila();
                             ja_randomizou = false;
                             game.estado_atual = Estado::MENU;
                             game.pontos_jogador = 0;
@@ -498,6 +507,8 @@ int main() {
             }
             case Estado::INTRODUCAO:{
                 window.draw(game.sprite_atual);
+                sprite_jogador.setPosition({450.f, 100.f});
+                window.draw(sprite_jogador);
                 sf::Text texto_intro(game.fonte, "Hoje eu finalmete completei 10 anos, e agora poderei me tornar o mestre pokemon!");
                 sf::Text texto_intro2(game.fonte, "Mas para isso, precisarei descobrir os pokemons do meu inimigo");
                 sf::Text texto_intro3(game.fonte, "e capturar pokemons efetivos contra os dele!");
